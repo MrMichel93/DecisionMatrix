@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Matrix - Make Better Decisions</title>
+    <meta name="description" content="A simple decision matrix tool to help you make better decisions by comparing options against weighted criteria.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Decision Matrix</h1>
+            <p class="subtitle">Make better decisions by comparing options against weighted criteria</p>
+        </header>
+
+        <main>
+            <section class="setup-section">
+                <div class="input-group">
+                    <h2>Options</h2>
+                    <p class="help-text">What choices are you comparing?</p>
+                    <div id="options-container">
+                        <!-- Options will be added here dynamically -->
+                    </div>
+                    <button class="btn-secondary" id="add-option">+ Add Option</button>
+                </div>
+
+                <div class="input-group">
+                    <h2>Criteria</h2>
+                    <p class="help-text">What factors are important for your decision?</p>
+                    <div id="criteria-container">
+                        <!-- Criteria will be added here dynamically -->
+                    </div>
+                    <button class="btn-secondary" id="add-criterion">+ Add Criterion</button>
+                </div>
+            </section>
+
+            <section class="matrix-section" id="matrix-section">
+                <h2>Rate Your Options</h2>
+                <p class="help-text">Rate each option (1-10) for each criterion. Higher weight = more important criterion.</p>
+                <div class="matrix-scroll">
+                    <table id="decision-matrix">
+                        <!-- Matrix will be generated here -->
+                    </table>
+                </div>
+            </section>
+
+            <section class="results-section" id="results-section">
+                <h2>Results</h2>
+                <div id="results-container">
+                    <!-- Results will be displayed here -->
+                </div>
+            </section>
+
+            <section class="actions-section">
+                <button class="btn-primary" id="calculate-btn">Calculate Results</button>
+                <button class="btn-secondary" id="reset-btn">Reset All</button>
+                <button class="btn-secondary" id="share-btn">Copy Share Link</button>
+            </section>
+
+            <div id="toast" class="toast"></div>
+        </main>
+
+        <footer>
+            <p>All data is stored in the URL - no backend, no tracking, complete privacy.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
