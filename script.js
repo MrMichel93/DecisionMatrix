@@ -53,7 +53,7 @@ class DecisionMatrix {
     }
 
     generateId() {
-        return 'id_' + Math.random().toString(36).substr(2, 9);
+        return 'id_' + Math.random().toString(36).substring(2, 11);
     }
 
     addOption(name = '') {
@@ -402,26 +402,40 @@ class DecisionMatrix {
     copyShareLink() {
         const url = window.location.href;
         
-        navigator.clipboard.writeText(url).then(() => {
-            this.showToast('Share link copied to clipboard!');
-        }).catch(() => {
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = url;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
+        // Check if clipboard API is available
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(() => {
                 this.showToast('Share link copied to clipboard!');
-            } catch (error) {
+            }).catch(() => {
+                this.fallbackCopyToClipboard(url);
+            });
+        } else {
+            this.fallbackCopyToClipboard(url);
+        }
+    }
+
+    fallbackCopyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                this.showToast('Share link copied to clipboard!');
+            } else {
                 this.showToast('Failed to copy link. Please copy manually from the address bar.');
             }
-            
-            document.body.removeChild(textArea);
-        });
+        } catch (error) {
+            this.showToast('Failed to copy link. Please copy manually from the address bar.');
+        }
+        
+        document.body.removeChild(textArea);
     }
 
     showToast(message) {
