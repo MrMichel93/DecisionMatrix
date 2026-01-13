@@ -424,6 +424,7 @@ class DecisionMatrix {
         try {
             const stored = localStorage.getItem(this.storageKey);
             if (!stored) {
+                this.showToast('No saved matrix found in browser storage');
                 return;
             }
 
@@ -466,21 +467,15 @@ class DecisionMatrix {
         this.showToast('Matrix exported as JSON!');
     }
 
-    exportAsCSV() {
+    validateMatrixData() {
         if (this.options.length === 0 || this.criteria.length === 0) {
             this.showToast('Please add options and criteria first');
-            return;
+            return false;
         }
+        return true;
+    }
 
-        let csv = 'Option';
-        
-        // Header row with criteria
-        this.criteria.forEach(criterion => {
-            csv += `,${this.escapeCSV(criterion.name || 'Unnamed')} (Weight: ${this.weights[criterion.id]})`;
-        });
-        csv += ',Total Score,Percentage\n';
-
-        // Calculate results first
+    calculateScores() {
         const results = [];
         this.options.forEach(option => {
             let totalScore = 0;
@@ -496,8 +491,32 @@ class DecisionMatrix {
             });
 
             const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore * 100).toFixed(1) : 0;
-            results.push({ option, totalScore, percentage });
+            results.push({
+                option,
+                name: option.name || 'Unnamed',
+                totalScore,
+                percentage
+            });
         });
+
+        return results;
+    }
+
+    exportAsCSV() {
+        if (!this.validateMatrixData()) {
+            return;
+        }
+
+        let csv = 'Option';
+        
+        // Header row with criteria
+        this.criteria.forEach(criterion => {
+            csv += `,${this.escapeCSV(criterion.name || 'Unnamed')} (Weight: ${this.weights[criterion.id]})`;
+        });
+        csv += ',Total Score,Percentage\n';
+
+        // Calculate results
+        const results = this.calculateScores();
 
         // Data rows
         results.forEach(({ option, totalScore, percentage }) => {
@@ -516,8 +535,7 @@ class DecisionMatrix {
     }
 
     exportAsText() {
-        if (this.options.length === 0 || this.criteria.length === 0) {
-            this.showToast('Please add options and criteria first');
+        if (!this.validateMatrixData()) {
             return;
         }
 
@@ -544,27 +562,7 @@ class DecisionMatrix {
         // Calculate and add results
         text += '\n=== RESULTS ===\n\n';
         
-        const results = [];
-        this.options.forEach(option => {
-            let totalScore = 0;
-            let maxPossibleScore = 0;
-
-            this.criteria.forEach(criterion => {
-                const rating = this.ratings[option.id]?.[criterion.id] || 0;
-                const weight = this.weights[criterion.id] || 0;
-                const score = rating * weight;
-                
-                totalScore += score;
-                maxPossibleScore += 10 * weight;
-            });
-
-            const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore * 100).toFixed(1) : 0;
-            results.push({
-                name: option.name || 'Unnamed',
-                totalScore,
-                percentage
-            });
-        });
+        const results = this.calculateScores();
 
         // Sort by total score descending
         results.sort((a, b) => b.totalScore - a.totalScore);
