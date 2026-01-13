@@ -95,7 +95,7 @@ This project implements several performance optimizations to ensure fast load ti
 ### 1. **Minified Files**
 All production files are minified to reduce file sizes:
 - `styles.min.css` - Minified CSS (23% smaller)
-- `script.min.js` - Minified JavaScript (35% smaller)
+- `script.min.js` - Minified JavaScript (4% smaller, comments and blank lines removed)
 - `index.min.html` - Minified HTML (20% smaller)
 
 ### 2. **Critical CSS**
