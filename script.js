@@ -514,9 +514,55 @@ function initLazyLoading() {
     }
 }
 
+// Mobile navigation menu toggle
+function initMobileNav() {
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if (!navToggle || !navMenu) {
+        return; // Navigation elements not found
+    }
+
+    // Toggle menu when hamburger is clicked
+    navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when a link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        const isClickInsideNav = navToggle.contains(event.target) || navMenu.contains(event.target);
+        
+        if (!isClickInsideNav && navMenu.classList.contains('active')) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+}
+
 // Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new DecisionMatrix();
+    
+    // Initialize mobile navigation
+    initMobileNav();
     
     // Initialize lazy-loading for any images or iframes
     // (currently none in the app, but ready for future use)
