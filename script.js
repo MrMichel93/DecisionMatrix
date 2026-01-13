@@ -540,11 +540,14 @@ function initMobileNav() {
 
     // Close menu when clicking outside
     document.addEventListener('click', (event) => {
-        const isClickInsideNav = navToggle.contains(event.target) || navMenu.contains(event.target);
-        
-        if (!isClickInsideNav && navMenu.classList.contains('active')) {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
+        // Check if menu is active first to avoid expensive DOM operations
+        if (navMenu.classList.contains('active')) {
+            const isClickInsideNav = navToggle.contains(event.target) || navMenu.contains(event.target);
+            
+            if (!isClickInsideNav) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         }
     });
 
