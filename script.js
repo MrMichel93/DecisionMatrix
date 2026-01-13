@@ -5,6 +5,7 @@ class DecisionMatrix {
         this.criteria = [];
         this.ratings = {}; // { optionId: { criterionId: rating } }
         this.weights = {}; // { criterionId: weight }
+        this.storageKey = 'decisionMatrix_data';
         
         this.init();
     }
@@ -13,7 +14,12 @@ class DecisionMatrix {
         this.setupEventListeners();
         this.loadFromURL();
         
-        // If no data loaded from URL, add default items
+        // If no data loaded from URL, try loading from localStorage
+        if (this.options.length === 0 && this.criteria.length === 0) {
+            this.loadFromLocalStorage();
+        }
+        
+        // If still no data, add default items
         if (this.options.length === 0 && this.criteria.length === 0) {
             this.addOption('Option 1');
             this.addOption('Option 2');
@@ -49,6 +55,26 @@ class DecisionMatrix {
 
         document.getElementById('share-btn').addEventListener('click', () => {
             this.copyShareLink();
+        });
+
+        document.getElementById('save-local-btn').addEventListener('click', () => {
+            this.saveToLocalStorage();
+        });
+
+        document.getElementById('load-local-btn').addEventListener('click', () => {
+            this.loadFromLocalStorage();
+        });
+
+        document.getElementById('export-json-btn').addEventListener('click', () => {
+            this.exportAsJSON();
+        });
+
+        document.getElementById('export-csv-btn').addEventListener('click', () => {
+            this.exportAsCSV();
+        });
+
+        document.getElementById('export-text-btn').addEventListener('click', () => {
+            this.exportAsText();
         });
     }
 
@@ -376,6 +402,197 @@ class DecisionMatrix {
             console.error('Failed to load data from URL:', error);
             this.showToast('Failed to load data from URL');
         }
+    }
+
+    saveToLocalStorage() {
+        try {
+            const data = {
+                options: this.options,
+                criteria: this.criteria,
+                ratings: this.ratings,
+                weights: this.weights
+            };
+            localStorage.setItem(this.storageKey, JSON.stringify(data));
+            this.showToast('Matrix saved to browser storage!');
+        } catch (error) {
+            console.error('Failed to save to localStorage:', error);
+            this.showToast('Failed to save to browser storage');
+        }
+    }
+
+    loadFromLocalStorage() {
+        try {
+            const stored = localStorage.getItem(this.storageKey);
+            if (!stored) {
+                this.showToast('No saved matrix found in browser storage');
+                return;
+            }
+
+            const data = JSON.parse(stored);
+            
+            if (data.options && Array.isArray(data.options)) {
+                this.options = data.options;
+            }
+            
+            if (data.criteria && Array.isArray(data.criteria)) {
+                this.criteria = data.criteria;
+            }
+            
+            if (data.ratings && typeof data.ratings === 'object') {
+                this.ratings = data.ratings;
+            }
+            
+            if (data.weights && typeof data.weights === 'object') {
+                this.weights = data.weights;
+            }
+
+            this.render();
+            this.showToast('Matrix loaded from browser storage!');
+        } catch (error) {
+            console.error('Failed to load from localStorage:', error);
+            this.showToast('Failed to load from browser storage');
+        }
+    }
+
+    exportAsJSON() {
+        const data = {
+            options: this.options,
+            criteria: this.criteria,
+            ratings: this.ratings,
+            weights: this.weights
+        };
+
+        const json = JSON.stringify(data, null, 2);
+        this.downloadFile(json, 'decision-matrix.json', 'application/json');
+        this.showToast('Matrix exported as JSON!');
+    }
+
+    validateMatrixData() {
+        if (this.options.length === 0 || this.criteria.length === 0) {
+            this.showToast('Please add options and criteria first');
+            return false;
+        }
+        return true;
+    }
+
+    calculateScores() {
+        const results = [];
+        this.options.forEach(option => {
+            let totalScore = 0;
+            let maxPossibleScore = 0;
+
+            this.criteria.forEach(criterion => {
+                const rating = this.ratings[option.id]?.[criterion.id] || 0;
+                const weight = this.weights[criterion.id] || 0;
+                const score = rating * weight;
+                
+                totalScore += score;
+                maxPossibleScore += 10 * weight;
+            });
+
+            const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore * 100).toFixed(1) : 0;
+            results.push({
+                option,
+                name: option.name || 'Unnamed',
+                totalScore,
+                percentage
+            });
+        });
+
+        return results;
+    }
+
+    exportAsCSV() {
+        if (!this.validateMatrixData()) {
+            return;
+        }
+
+        let csv = 'Option';
+        
+        // Header row with criteria
+        this.criteria.forEach(criterion => {
+            csv += `,${this.escapeCSV(criterion.name || 'Unnamed')} (Weight: ${this.weights[criterion.id]})`;
+        });
+        csv += ',Total Score,Percentage\n';
+
+        // Calculate results
+        const results = this.calculateScores();
+
+        // Data rows
+        results.forEach(({ option, totalScore, percentage }) => {
+            csv += this.escapeCSV(option.name || 'Unnamed');
+            
+            this.criteria.forEach(criterion => {
+                const rating = this.ratings[option.id]?.[criterion.id] || 0;
+                csv += `,${rating}`;
+            });
+            
+            csv += `,${totalScore.toFixed(1)},${percentage}%\n`;
+        });
+
+        this.downloadFile(csv, 'decision-matrix.csv', 'text/csv');
+        this.showToast('Matrix exported as CSV!');
+    }
+
+    exportAsText() {
+        if (!this.validateMatrixData()) {
+            return;
+        }
+
+        let text = '=== DECISION MATRIX ===\n\n';
+
+        // Criteria section
+        text += 'CRITERIA:\n';
+        this.criteria.forEach((criterion, index) => {
+            text += `${index + 1}. ${criterion.name || 'Unnamed'} (Weight: ${this.weights[criterion.id]})\n`;
+        });
+        text += '\n';
+
+        // Options section with ratings
+        text += 'OPTIONS:\n';
+        this.options.forEach((option, optIndex) => {
+            text += `\n${optIndex + 1}. ${option.name || 'Unnamed'}\n`;
+            
+            this.criteria.forEach(criterion => {
+                const rating = this.ratings[option.id]?.[criterion.id] || 0;
+                text += `   - ${criterion.name || 'Unnamed'}: ${rating}/10\n`;
+            });
+        });
+
+        // Calculate and add results
+        text += '\n=== RESULTS ===\n\n';
+        
+        const results = this.calculateScores();
+
+        // Sort by total score descending
+        results.sort((a, b) => b.totalScore - a.totalScore);
+
+        results.forEach((result, index) => {
+            text += `${index + 1}. ${result.name}\n`;
+            text += `   Score: ${result.totalScore.toFixed(1)} (${result.percentage}%)\n`;
+        });
+
+        this.downloadFile(text, 'decision-matrix.txt', 'text/plain');
+        this.showToast('Matrix exported as plain text!');
+    }
+
+    escapeCSV(str) {
+        if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+            return '"' + str.replace(/"/g, '""') + '"';
+        }
+        return str;
+    }
+
+    downloadFile(content, filename, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 
     reset() {
