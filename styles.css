@@ -372,6 +372,28 @@ button {
     flex-wrap: wrap;
 }
 
+/* Storage and Export Sections */
+.storage-section,
+.export-section {
+    background: var(--surface);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 150px;
+}
+
 /* About Section */
 .about-section {
     background: var(--surface);
@@ -547,6 +569,14 @@ iframe[data-src] {
     }
 
     .actions-section button {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group button {
         width: 100%;
     }
 
