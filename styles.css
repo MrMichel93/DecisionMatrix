@@ -110,6 +110,7 @@ body {
     margin: 3px 0;
     transition: all 0.3s ease;
     border-radius: 3px;
+    will-change: transform, opacity;
 }
 
 .nav-toggle.active .hamburger:nth-child(1) {
@@ -659,5 +660,26 @@ iframe[data-src] {
     button {
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
+    }
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .hamburger {
+        transition: none;
+    }
+
+    .nav-menu {
+        transition: none;
     }
 }

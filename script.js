@@ -528,6 +528,10 @@ function initMobileNav() {
     navToggle.addEventListener('click', () => {
         navToggle.classList.toggle('active');
         navMenu.classList.toggle('active');
+        
+        // Update aria-expanded for accessibility
+        const isExpanded = navMenu.classList.contains('active');
+        navToggle.setAttribute('aria-expanded', isExpanded.toString());
     });
 
     // Close menu when a link is clicked
@@ -535,6 +539,7 @@ function initMobileNav() {
         link.addEventListener('click', () => {
             navToggle.classList.remove('active');
             navMenu.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -547,6 +552,7 @@ function initMobileNav() {
             if (!isClickInsideNav) {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
             }
         }
     });
@@ -556,6 +562,7 @@ function initMobileNav() {
         if (event.key === 'Escape' && navMenu.classList.contains('active')) {
             navToggle.classList.remove('active');
             navMenu.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
         }
     });
 }
