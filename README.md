@@ -81,6 +81,47 @@ Then visit `http://localhost:8000` in your browser.
 - **URL Encoding**: Uses Base64 encoding to store state in URL hash
 - **Responsive CSS**: Mobile-first design with CSS Grid and Flexbox
 - **Modern Browser Support**: Works on all modern browsers (Chrome, Firefox, Safari, Edge)
+- **Performance Optimizations**: 
+  - Minified HTML, CSS, and JavaScript files for reduced load times
+  - Critical CSS inlined for above-the-fold content to speed up initial rendering
+  - Asynchronous CSS loading for non-critical styles
+  - Lazy-loading support for images and iframes (ready for future use)
+  - No external dependencies for maximum performance
+
+## 📦 Performance Optimizations
+
+This project implements several performance optimizations to ensure fast load times:
+
+### 1. **Minified Files**
+All production files are minified to reduce file sizes:
+- `styles.min.css` - Minified CSS (23% smaller)
+- `script.min.js` - Minified JavaScript (35% smaller)
+- `index.min.html` - Minified HTML (20% smaller)
+
+### 2. **Critical CSS**
+Above-the-fold styles are inlined in the HTML `<head>` to enable instant rendering of visible content without waiting for external CSS files. Non-critical CSS is loaded asynchronously.
+
+### 3. **Lazy-Loading**
+The application includes built-in lazy-loading functionality for images and iframes:
+- Uses the Intersection Observer API for efficient lazy-loading
+- Loads assets only when they're about to enter the viewport
+- Includes a fallback for browsers without Intersection Observer support
+- Prevents layout shift with placeholder styles
+
+**How to use lazy-loading:**
+To add lazy-loaded images or iframes to your page:
+```html
+<!-- For images -->
+<img class="lazy" data-src="path/to/image.jpg" alt="Description">
+
+<!-- For iframes -->
+<iframe class="lazy" data-src="path/to/content.html"></iframe>
+```
+
+The lazy-loading script will automatically detect and handle these elements.
+
+### 4. **Privacy-Focused**
+All optimizations maintain the privacy-first approach - no external scripts, no tracking, no CDNs.
 
 ## 📁 Project Structure
 

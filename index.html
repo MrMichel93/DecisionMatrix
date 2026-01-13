@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Matrix - Make Better Decisions</title>
     <meta name="description" content="A simple decision matrix tool to help you make better decisions by comparing options against weighted criteria.">
-    <link rel="stylesheet" href="styles.css">
+    <!-- Critical CSS inlined for above-the-fold content -->
+    <style>*{margin:0;padding:0;box-sizing:border-box}:root{--primary-color:#2563eb;--primary-hover:#1d4ed8;--secondary-color:#64748b;--background:#f8fafc;--surface:#ffffff;--text-primary:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--success:#10b981;--danger:#ef4444;--shadow:0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05)}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:var(--background);color:var(--text-primary);line-height:1.6;min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:2rem 1rem}header{text-align:center;margin-bottom:3rem;padding:2rem 0}h1{font-size:2.5rem;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem}.subtitle{font-size:1.125rem;color:var(--text-secondary)}section{background:var(--surface);border-radius:0.5rem;padding:2rem;margin-bottom:2rem;box-shadow:var(--shadow)}h2{font-size:1.5rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-primary)}.help-text{color:var(--text-secondary);font-size:0.875rem;margin-bottom:1rem}.setup-section{display:grid;grid-template-columns:1fr 1fr;gap:2rem}.input-group{display:flex;flex-direction:column}</style>
+    <!-- Load non-critical CSS asynchronously -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
 <body>
     <div class="container">

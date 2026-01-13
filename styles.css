@@ -309,6 +309,25 @@ footer {
     display: none;
 }
 
+/* Lazy-loading styles */
+img.lazy,
+iframe.lazy {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+img.loaded,
+iframe.loaded {
+    opacity: 1;
+}
+
+/* Prevent layout shift for lazy-loaded images */
+img[data-src],
+iframe[data-src] {
+    background: var(--background);
+    min-height: 200px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
