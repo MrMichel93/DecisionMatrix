@@ -127,11 +127,29 @@ All optimizations maintain the privacy-first approach - no external scripts, no 
 
 ```
 DecisionMatrix/
-├── index.html      # Main HTML structure
-├── styles.css      # All styling and responsive design
-├── script.js       # Application logic and URL handling
-└── README.md       # This file
+├── index.html          # Main HTML structure (optimized with critical CSS)
+├── index.min.html      # Fully minified HTML
+├── styles.css          # All styling and responsive design
+├── styles.min.css      # Minified CSS
+├── critical.css        # Critical above-the-fold CSS
+├── script.js           # Application logic with lazy-loading support
+├── script.min.js       # Minified JavaScript
+├── minify.sh           # Script to regenerate minified files
+├── PERFORMANCE.md      # Detailed performance optimization guide
+└── README.md           # This file
 ```
+
+## 🔧 Maintenance
+
+When you make changes to the source files, regenerate the minified versions:
+
+```bash
+./minify.sh
+```
+
+This script will automatically update all minified files and show you the file size comparisons.
+
+For detailed information about the performance optimizations, see [PERFORMANCE.md](PERFORMANCE.md).
 
 ## 🔒 Privacy
 
