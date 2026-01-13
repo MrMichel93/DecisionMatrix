@@ -805,6 +805,10 @@ function initTheme() {
     const themeIcon = document.getElementById('theme-icon');
     const htmlElement = document.documentElement;
     
+    if (!themeToggle || !themeIcon) {
+        return; // Theme elements not found
+    }
+    
     // Check for saved theme preference or default to 'light'
     const savedTheme = localStorage.getItem('theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
@@ -822,5 +826,8 @@ function initTheme() {
 }
 
 function updateThemeIcon(theme, iconElement) {
+    if (!iconElement) {
+        return; // Icon element not found
+    }
     iconElement.textContent = theme === 'light' ? '🌙' : '☀️';
 }

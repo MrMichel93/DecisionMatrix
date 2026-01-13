@@ -901,6 +901,10 @@ iframe[data-src] {
         animation: none;
     }
 
+    .result-item:first-child {
+        animation: none;
+    }
+
     .option-item,
     .criterion-item {
         animation: none;
