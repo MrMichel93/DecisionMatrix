@@ -70,6 +70,7 @@
                 <li class="nav-item" role="none"><a href="#matrix-section" class="nav-link" role="menuitem">Matrix</a></li>
                 <li class="nav-item" role="none"><a href="#results-section" class="nav-link" role="menuitem">Results</a></li>
                 <li class="nav-item" role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
+                <li class="nav-item" role="none"><a href="privacy.html" class="nav-link" role="menuitem">Privacy</a></li>
                 <li class="nav-item" role="none">
                     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
                         <span id="theme-icon" aria-hidden="true">🌙</span>
@@ -83,6 +84,11 @@
         <header id="home" role="banner">
             <h1>Decision Matrix</h1>
             <p class="subtitle">Make better decisions by comparing options against weighted criteria</p>
+            <div class="privacy-badge">
+                <span class="badge-icon" aria-hidden="true">🔒</span>
+                <span>100% Private - No tracking, no data collection</span>
+                <a href="privacy.html" class="badge-link" aria-label="Learn more about our privacy policy">Learn more</a>
+            </div>
         </header>
 
         <main id="main-content" role="main">
@@ -166,7 +172,31 @@
         <section id="about" class="about-section" aria-labelledby="about-heading">
             <h2 id="about-heading">About Decision Matrix</h2>
             <p>This tool helps you make informed decisions by comparing multiple options against weighted criteria. Simply add your options, define important criteria with weights, rate each option, and let the matrix calculate the best choice for you.</p>
-            <p><strong>Privacy First:</strong> All data is stored in the URL - no backend, no tracking, complete privacy.</p>
+            
+            <h3>🔒 100% Privacy-Friendly</h3>
+            <p>Decision Matrix is designed from the ground up to respect your privacy. We believe your decisions are your business, not ours.</p>
+            
+            <div class="privacy-features">
+                <h4>What We DON'T Do:</h4>
+                <ul>
+                    <li>❌ No data collection or tracking</li>
+                    <li>❌ No analytics or cookies</li>
+                    <li>❌ No user accounts or sign-ups required</li>
+                    <li>❌ No external servers or databases</li>
+                    <li>❌ No third-party services or APIs</li>
+                </ul>
+                
+                <h4>How Your Data is Handled:</h4>
+                <ul>
+                    <li>✅ All data stored locally in your browser only</li>
+                    <li>✅ URL-based encoding for easy sharing (your choice)</li>
+                    <li>✅ Optional browser localStorage (stays on your device)</li>
+                    <li>✅ You control all exports and sharing</li>
+                    <li>✅ Complete privacy - your data never touches our servers</li>
+                </ul>
+                
+                <p><strong>Learn more:</strong> Read our <a href="privacy.html">detailed Privacy Policy</a> with technical implementation examples.</p>
+            </div>
             
             <h3>⌨️ Keyboard Shortcuts</h3>
             <ul class="keyboard-shortcuts-list" aria-label="Available keyboard shortcuts">
@@ -178,7 +208,8 @@
         </section>
 
         <footer role="contentinfo">
-            <p>All data is stored in the URL - no backend, no tracking, complete privacy.</p>
+            <p>All data is stored locally in your browser - no backend, no tracking, complete privacy.</p>
+            <p><a href="privacy.html">Privacy Policy</a> | Open Source on <a href="https://github.com/MrMichel93/DecisionMatrix" target="_blank" rel="noopener noreferrer">GitHub</a></p>
         </footer>
     </div>
 
