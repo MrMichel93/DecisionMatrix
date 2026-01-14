@@ -34,7 +34,7 @@
                 <li class="nav-item" role="none"><a href="#results-section" class="nav-link" role="menuitem">Results</a></li>
                 <li class="nav-item" role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
                 <li class="nav-item" role="none">
-                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode" tabindex="0">
                         <span id="theme-icon" aria-hidden="true">🌙</span>
                     </button>
                 </li>
@@ -73,7 +73,7 @@
             <section class="matrix-section" id="matrix-section" aria-labelledby="matrix-heading">
                 <h2 id="matrix-heading">Rate Your Options</h2>
                 <p class="help-text" id="matrix-help-text">Rate each option (1-10) for each criterion. All fields are required before calculating results.</p>
-                <div class="matrix-scroll" role="region" aria-label="Decision matrix table" tabindex="0">
+                <div class="matrix-scroll" role="region" aria-label="Decision matrix table" tabindex="0" aria-describedby="matrix-help-text">
                     <table id="decision-matrix" role="table" aria-describedby="matrix-help-text">
                         <!-- Matrix will be generated here -->
                     </table>

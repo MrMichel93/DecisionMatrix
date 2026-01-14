@@ -33,6 +33,7 @@ class DecisionMatrix {
         }
         
         this.render();
+        this.setupTooltips();
     }
 
     updateProgress() {
@@ -316,6 +317,8 @@ class DecisionMatrix {
         this.renderCriteria();
         this.renderMatrix();
         this.updateProgress();
+        // Re-setup tooltips after rendering in case new elements were added
+        this.setupTooltips();
     }
 
     renderOptions() {
@@ -359,8 +362,10 @@ class DecisionMatrix {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     e.target.setAttribute('aria-invalid', 'true');
+                    this.showErrorMessage(e.target, 'Option name is required');
                 } else {
                     e.target.setAttribute('aria-invalid', 'false');
+                    this.hideErrorMessage(e.target);
                 }
             });
 
@@ -427,8 +432,10 @@ class DecisionMatrix {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     e.target.setAttribute('aria-invalid', 'true');
+                    this.showErrorMessage(e.target, 'Criterion name is required');
                 } else {
                     e.target.setAttribute('aria-invalid', 'false');
+                    this.hideErrorMessage(e.target);
                 }
             });
 
@@ -445,9 +452,10 @@ class DecisionMatrix {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     e.target.setAttribute('aria-invalid', 'true');
-                    this.showToast('Weight must be between 1 and 10');
+                    this.showErrorMessage(e.target, 'Weight must be between 1 and 10');
                 } else {
                     e.target.setAttribute('aria-invalid', 'false');
+                    this.hideErrorMessage(e.target);
                 }
             });
 
@@ -522,9 +530,10 @@ class DecisionMatrix {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     e.target.setAttribute('aria-invalid', 'true');
-                    this.showToast('Rating must be between 1 and 10');
+                    this.showErrorMessage(e.target, 'Rating must be between 1 and 10');
                 } else {
                     e.target.setAttribute('aria-invalid', 'false');
+                    this.hideErrorMessage(e.target);
                 }
             });
         });
@@ -941,6 +950,132 @@ class DecisionMatrix {
         }
         
         document.body.removeChild(textArea);
+    }
+
+    setupTooltips() {
+        // Add tooltips to all buttons
+        const tooltipConfigs = [
+            { selector: '#add-option', text: 'Add a new option to compare' },
+            { selector: '#add-criterion', text: 'Add a new criterion to rate options' },
+            { selector: '#calculate-btn', text: 'Calculate and display results (Ctrl/⌘+Enter)' },
+            { selector: '#reset-btn', text: 'Clear all data and start over' },
+            { selector: '#share-btn', text: 'Copy shareable link (Ctrl/⌘+K)' },
+            { selector: '#save-local-btn', text: 'Save matrix to browser storage (Ctrl/⌘+S)' },
+            { selector: '#load-local-btn', text: 'Load matrix from browser storage (Ctrl/⌘+L)' },
+            { selector: '#export-json-btn', text: 'Export as JSON file for backup' },
+            { selector: '#export-csv-btn', text: 'Export as CSV for spreadsheets' },
+            { selector: '#export-text-btn', text: 'Export as plain text file' },
+            { selector: '#theme-toggle', text: 'Toggle between light and dark theme' }
+        ];
+
+        tooltipConfigs.forEach(config => {
+            const element = document.querySelector(config.selector);
+            if (element) {
+                this.addTooltip(element, config.text);
+            }
+        });
+    }
+
+    addTooltip(element, text) {
+        let tooltip = null;
+        let showTimeout = null;
+        let hideTimeout = null;
+
+        const showTooltip = () => {
+            // Clear any pending hide
+            if (hideTimeout) {
+                clearTimeout(hideTimeout);
+                hideTimeout = null;
+            }
+
+            // Delay showing tooltip slightly
+            showTimeout = setTimeout(() => {
+                // Create tooltip if it doesn't exist
+                if (!tooltip) {
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip tooltip-top';
+                    tooltip.textContent = text;
+                    tooltip.setAttribute('role', 'tooltip');
+                    document.body.appendChild(tooltip);
+                }
+
+                // Position tooltip
+                const rect = element.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+                const top = rect.top - tooltipRect.height - 10;
+
+                tooltip.style.left = `${Math.max(10, left)}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.classList.add('show');
+            }, 500); // Show after 500ms hover
+        };
+
+        const hideTooltip = () => {
+            // Clear any pending show
+            if (showTimeout) {
+                clearTimeout(showTimeout);
+                showTimeout = null;
+            }
+
+            // Hide with slight delay
+            hideTimeout = setTimeout(() => {
+                if (tooltip) {
+                    tooltip.classList.remove('show');
+                    // Remove from DOM after transition
+                    setTimeout(() => {
+                        if (tooltip && tooltip.parentNode) {
+                            document.body.removeChild(tooltip);
+                            tooltip = null;
+                        }
+                    }, 200);
+                }
+            }, 100);
+        };
+
+        element.addEventListener('mouseenter', showTooltip);
+        element.addEventListener('mouseleave', hideTooltip);
+        element.addEventListener('focus', showTooltip);
+        element.addEventListener('blur', hideTooltip);
+    }
+
+    showErrorMessage(inputElement, message) {
+        // Remove any existing error message
+        const existingError = inputElement.parentElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        // Create and show new error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message show';
+        errorDiv.textContent = message;
+        errorDiv.setAttribute('role', 'alert');
+        errorDiv.setAttribute('aria-live', 'polite');
+        
+        inputElement.parentElement.appendChild(errorDiv);
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            errorDiv.classList.remove('show');
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 200);
+        }, 3000);
+    }
+
+    hideErrorMessage(inputElement) {
+        const existingError = inputElement.parentElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.classList.remove('show');
+            setTimeout(() => {
+                if (existingError.parentNode) {
+                    existingError.parentNode.removeChild(existingError);
+                }
+            }, 200);
+        }
     }
 
     showToast(message) {
