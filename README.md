@@ -140,10 +140,11 @@ All optimizations maintain the privacy-first approach - no external scripts, no 
 DecisionMatrix/
 ├── index.html          # Main HTML structure (optimized with security headers and SEO)
 ├── index.min.html      # Fully minified HTML
+├── privacy.html        # Comprehensive privacy policy page with technical examples
 ├── styles.css          # All styling and responsive design
 ├── styles.min.css      # Minified CSS
 ├── critical.css        # Critical above-the-fold CSS (external file)
-├── script.js           # Application logic with lazy-loading support
+├── script.js           # Application logic with privacy-focused comments
 ├── script.min.js       # Minified JavaScript
 ├── structured-data.js  # Schema.org structured data (external file for security)
 ├── .htaccess           # Apache server security headers configuration
@@ -171,7 +172,17 @@ For SEO best practices and optimization details, see [SEO.md](SEO.md).
 
 ## 🔒 Privacy
 
-All data remains in your browser and URL. Nothing is sent to any server. Your decision-making process is completely private.
+**Decision Matrix is 100% privacy-friendly.** All data remains in your browser - nothing is sent to any server. Your decision-making process is completely private.
+
+### Privacy Features:
+- ❌ No data collection or tracking
+- ❌ No analytics, cookies, or third-party services  
+- ❌ No user accounts or sign-ups required
+- ✅ All data stored locally in your browser only
+- ✅ URL-based encoding for easy sharing (your choice)
+- ✅ Optional browser localStorage (stays on your device)
+
+**Read our comprehensive [Privacy Policy](privacy.html)** with detailed technical implementation examples showing exactly how we protect your privacy.
 
 ## 🔐 Security
 
