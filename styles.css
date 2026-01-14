@@ -1358,11 +1358,11 @@ iframe[data-src] {
 
 [data-theme="dark"] .code-example {
     background: #1a1a1a;
-    border-color: #333;
+    border-color: #444;
 }
 
 [data-theme="dark"] .code-example pre {
-    background: #0d0d0d;
+    background: #0a0a0a;
 }
 
 /* Active nav link styling */
