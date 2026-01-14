@@ -37,6 +37,10 @@ Visit the live website: [https://mrmichel93.github.io/DecisionMatrix/](https://m
 
 ## 🛠️ Deployment to GitHub Pages
 
+For detailed deployment instructions including security header configuration for different hosting platforms, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Quick Start - GitHub Pages
+
 ### Method 1: Using GitHub Web Interface
 
 1. Go to your repository settings on GitHub
