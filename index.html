@@ -48,7 +48,7 @@
             <section class="setup-section" id="setup">
                 <div class="input-group">
                     <h2>Options</h2>
-                    <p class="help-text">What choices are you comparing?</p>
+                    <p class="help-text">What choices are you comparing? Add at least 2 options with descriptive names.</p>
                     <div id="options-container">
                         <!-- Options will be added here dynamically -->
                     </div>
@@ -57,7 +57,7 @@
 
                 <div class="input-group">
                     <h2>Criteria</h2>
-                    <p class="help-text">What factors are important for your decision?</p>
+                    <p class="help-text">What factors are important for your decision? Set weights (1-10) where higher = more important.</p>
                     <div id="criteria-container">
                         <!-- Criteria will be added here dynamically -->
                     </div>
@@ -67,7 +67,7 @@
 
             <section class="matrix-section" id="matrix-section">
                 <h2>Rate Your Options</h2>
-                <p class="help-text">Rate each option (1-10) for each criterion. Higher weight = more important criterion.</p>
+                <p class="help-text">Rate each option (1-10) for each criterion. All fields are required before calculating results.</p>
                 <div class="matrix-scroll">
                     <table id="decision-matrix">
                         <!-- Matrix will be generated here -->
@@ -114,6 +114,14 @@
             <h2>About Decision Matrix</h2>
             <p>This tool helps you make informed decisions by comparing multiple options against weighted criteria. Simply add your options, define important criteria with weights, rate each option, and let the matrix calculate the best choice for you.</p>
             <p><strong>Privacy First:</strong> All data is stored in the URL - no backend, no tracking, complete privacy.</p>
+            
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">⌨️ Keyboard Shortcuts</h3>
+            <ul style="list-style: none; padding-left: 0; color: var(--text-secondary); font-size: 0.875rem;">
+                <li style="padding: 0.25rem 0;">• <kbd>Ctrl+Enter</kbd> or <kbd>⌘+Enter</kbd> - Calculate results</li>
+                <li style="padding: 0.25rem 0;">• <kbd>Ctrl+S</kbd> or <kbd>⌘+S</kbd> - Save to browser</li>
+                <li style="padding: 0.25rem 0;">• <kbd>Ctrl+L</kbd> or <kbd>⌘+L</kbd> - Load from browser</li>
+                <li style="padding: 0.25rem 0;">• <kbd>Ctrl+K</kbd> or <kbd>⌘+K</kbd> - Copy share link</li>
+            </ul>
         </section>
 
         <footer>
