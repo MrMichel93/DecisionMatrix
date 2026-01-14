@@ -325,6 +325,7 @@ class DecisionMatrix {
         this.options.forEach((option, index) => {
             const div = document.createElement('div');
             div.className = 'option-item';
+            div.setAttribute('role', 'listitem');
             const isValid = option.name && option.name.trim().length > 0;
             const validationClass = isValid ? 'input-valid' : 'input-incomplete';
             
@@ -335,6 +336,7 @@ class DecisionMatrix {
                        class="${validationClass}"
                        data-option-id="${option.id}"
                        aria-label="Option ${index + 1} name"
+                       aria-required="true"
                        required>
                 <button class="btn-remove" data-remove-option="${option.id}" aria-label="Remove option ${index + 1}">×</button>
             `;
@@ -348,12 +350,17 @@ class DecisionMatrix {
                 const hasValue = e.target.value.trim().length > 0;
                 e.target.classList.remove('input-valid', 'input-incomplete', 'input-error');
                 e.target.classList.add(hasValue ? 'input-valid' : 'input-incomplete');
+                // Update aria-invalid
+                e.target.setAttribute('aria-invalid', !hasValue);
             });
             
             input.addEventListener('blur', (e) => {
                 if (e.target.value.trim().length === 0) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
+                    e.target.setAttribute('aria-invalid', 'true');
+                } else {
+                    e.target.setAttribute('aria-invalid', 'false');
                 }
             });
 
@@ -375,6 +382,7 @@ class DecisionMatrix {
         this.criteria.forEach((criterion, index) => {
             const div = document.createElement('div');
             div.className = 'criterion-item';
+            div.setAttribute('role', 'listitem');
             const isNameValid = criterion.name && criterion.name.trim().length > 0;
             const isWeightValid = this.weights[criterion.id] >= 1 && this.weights[criterion.id] <= 10;
             const nameValidationClass = isNameValid ? 'input-valid' : 'input-incomplete';
@@ -387,8 +395,9 @@ class DecisionMatrix {
                        class="${nameValidationClass}"
                        data-criterion-id="${criterion.id}"
                        aria-label="Criterion ${index + 1} name"
+                       aria-required="true"
                        required>
-                <span class="weight-label">Weight:</span>
+                <span class="weight-label" id="weight-label-${criterion.id}">Weight:</span>
                 <input type="number" 
                        min="1" 
                        max="10" 
@@ -396,7 +405,11 @@ class DecisionMatrix {
                        class="${weightValidationClass}"
                        data-weight-id="${criterion.id}"
                        aria-label="Criterion ${index + 1} weight (1-10)"
+                       aria-labelledby="weight-label-${criterion.id}"
+                       aria-required="true"
+                       aria-describedby="weight-description-${criterion.id}"
                        title="Enter a weight between 1 and 10">
+                <span id="weight-description-${criterion.id}" class="visually-hidden">Weight must be between 1 and 10, where 10 is most important</span>
                 <button class="btn-remove" data-remove-criterion="${criterion.id}" aria-label="Remove criterion ${index + 1}">×</button>
             `;
             container.appendChild(div);
@@ -409,12 +422,16 @@ class DecisionMatrix {
                 const hasValue = e.target.value.trim().length > 0;
                 e.target.classList.remove('input-valid', 'input-incomplete', 'input-error');
                 e.target.classList.add(hasValue ? 'input-valid' : 'input-incomplete');
+                e.target.setAttribute('aria-invalid', !hasValue);
             });
             
             nameInput.addEventListener('blur', (e) => {
                 if (e.target.value.trim().length === 0) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
+                    e.target.setAttribute('aria-invalid', 'true');
+                } else {
+                    e.target.setAttribute('aria-invalid', 'false');
                 }
             });
 
@@ -422,6 +439,7 @@ class DecisionMatrix {
             weightInput.addEventListener('input', (e) => {
                 const isValid = this.updateWeight(criterion.id, e.target.value);
                 this.updateInputValidationState(e.target, e.target.value, isValid);
+                e.target.setAttribute('aria-invalid', !isValid);
             });
             
             weightInput.addEventListener('blur', (e) => {
@@ -429,7 +447,10 @@ class DecisionMatrix {
                 if (e.target.value && (isNaN(value) || value < 1 || value > 10)) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
+                    e.target.setAttribute('aria-invalid', 'true');
                     this.showToast('Weight must be between 1 and 10');
+                } else {
+                    e.target.setAttribute('aria-invalid', 'false');
                 }
             });
 
@@ -455,17 +476,17 @@ class DecisionMatrix {
 
         matrixSection.classList.remove('hidden');
         
-        let html = '<thead><tr><th>Options / Criteria</th>';
+        let html = '<thead><tr><th scope="col">Options / Criteria</th>';
         
         // Header row with criteria
         this.criteria.forEach(criterion => {
-            html += `<th>${criterion.name || 'Unnamed'}<br><small class="weight-label">(Weight: ${this.weights[criterion.id]})</small></th>`;
+            html += `<th scope="col">${criterion.name || 'Unnamed'}<br><small class="weight-label">(Weight: ${this.weights[criterion.id]})</small></th>`;
         });
         html += '</tr></thead><tbody>';
 
         // Data rows
         this.options.forEach(option => {
-            html += `<tr><td><strong>${option.name || 'Unnamed'}</strong></td>`;
+            html += `<tr><th scope="row"><strong>${option.name || 'Unnamed'}</strong></th>`;
             
             this.criteria.forEach(criterion => {
                 const rating = this.ratings[option.id]?.[criterion.id] || 5;
@@ -475,7 +496,11 @@ class DecisionMatrix {
                            max="10" 
                            value="${rating}"
                            data-option-id="${option.id}"
-                           data-criterion-id="${criterion.id}">
+                           data-criterion-id="${criterion.id}"
+                           aria-label="Rating for ${option.name || 'Unnamed'} on ${criterion.name || 'Unnamed'}"
+                           aria-required="true"
+                           aria-describedby="matrix-help-text"
+                           title="Rate ${option.name || 'Unnamed'} for ${criterion.name || 'Unnamed'} (1-10)">
                 </td>`;
             });
             
@@ -492,6 +517,7 @@ class DecisionMatrix {
                 const criterionId = e.target.dataset.criterionId;
                 const isValid = this.updateRating(optionId, criterionId, e.target.value);
                 this.updateInputValidationState(e.target, e.target.value, isValid);
+                e.target.setAttribute('aria-invalid', !isValid);
             });
             
             input.addEventListener('blur', (e) => {
@@ -499,7 +525,10 @@ class DecisionMatrix {
                 if (e.target.value && (isNaN(value) || value < 1 || value > 10)) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
+                    e.target.setAttribute('aria-invalid', 'true');
                     this.showToast('Rating must be between 1 and 10');
+                } else {
+                    e.target.setAttribute('aria-invalid', 'false');
                 }
             });
         });
@@ -1076,6 +1105,8 @@ function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme, themeIcon);
+    // Update aria-pressed to reflect current state
+    themeToggle.setAttribute('aria-pressed', savedTheme === 'dark' ? 'true' : 'false');
     
     // Theme toggle handler
     themeToggle.addEventListener('click', () => {
@@ -1085,6 +1116,10 @@ function initTheme() {
         htmlElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme, themeIcon);
+        // Update aria-pressed
+        themeToggle.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
+        // Update aria-label to reflect what will happen next
+        themeToggle.setAttribute('aria-label', newTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     });
 }
 
