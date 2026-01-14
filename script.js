@@ -58,6 +58,17 @@ class DecisionMatrix {
         
         this.renderProgressIndicator();
     }
+    
+    updateInputValidationState(inputElement, value, isValid) {
+        inputElement.classList.remove('input-valid', 'input-incomplete', 'input-error');
+        if (value === '' || value === null || value === undefined) {
+            inputElement.classList.add('input-incomplete');
+        } else if (isValid) {
+            inputElement.classList.add('input-valid');
+        } else {
+            inputElement.classList.add('input-error');
+        }
+    }
 
     renderProgressIndicator() {
         let progressContainer = document.getElementById('progress-indicator');
@@ -266,6 +277,10 @@ class DecisionMatrix {
     }
 
     updateWeight(criterionId, weight) {
+        // Handle empty string separately
+        if (weight === '' || weight === null || weight === undefined) {
+            return false;
+        }
         const weightValue = parseFloat(weight);
         // Validate weight is between 1 and 10
         if (isNaN(weightValue) || weightValue < 1 || weightValue > 10) {
@@ -278,6 +293,10 @@ class DecisionMatrix {
     }
 
     updateRating(optionId, criterionId, rating) {
+        // Handle empty string separately
+        if (rating === '' || rating === null || rating === undefined) {
+            return false;
+        }
         const ratingValue = parseFloat(rating);
         // Validate rating is between 1 and 10
         if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 10) {
@@ -401,22 +420,13 @@ class DecisionMatrix {
 
             const weightInput = div.querySelector('input[type="number"]');
             weightInput.addEventListener('input', (e) => {
-                const value = parseFloat(e.target.value);
                 const isValid = this.updateWeight(criterion.id, e.target.value);
-                // Update visual feedback
-                e.target.classList.remove('input-valid', 'input-incomplete', 'input-error');
-                if (e.target.value === '') {
-                    e.target.classList.add('input-incomplete');
-                } else if (isValid) {
-                    e.target.classList.add('input-valid');
-                } else {
-                    e.target.classList.add('input-error');
-                }
+                this.updateInputValidationState(e.target, e.target.value, isValid);
             });
             
             weightInput.addEventListener('blur', (e) => {
                 const value = parseFloat(e.target.value);
-                if (isNaN(value) || value < 1 || value > 10) {
+                if (e.target.value && (isNaN(value) || value < 1 || value > 10)) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     this.showToast('Weight must be between 1 and 10');
@@ -481,20 +491,12 @@ class DecisionMatrix {
                 const optionId = e.target.dataset.optionId;
                 const criterionId = e.target.dataset.criterionId;
                 const isValid = this.updateRating(optionId, criterionId, e.target.value);
-                // Update visual feedback
-                e.target.classList.remove('input-valid', 'input-incomplete', 'input-error');
-                if (e.target.value === '') {
-                    e.target.classList.add('input-incomplete');
-                } else if (isValid) {
-                    e.target.classList.add('input-valid');
-                } else {
-                    e.target.classList.add('input-error');
-                }
+                this.updateInputValidationState(e.target, e.target.value, isValid);
             });
             
             input.addEventListener('blur', (e) => {
                 const value = parseFloat(e.target.value);
-                if (isNaN(value) || value < 1 || value > 10) {
+                if (e.target.value && (isNaN(value) || value < 1 || value > 10)) {
                     e.target.classList.remove('input-valid', 'input-incomplete');
                     e.target.classList.add('input-error');
                     this.showToast('Rating must be between 1 and 10');
@@ -526,7 +528,7 @@ class DecisionMatrix {
         // Check if all weights are valid
         const invalidWeights = this.criteria.filter(crit => {
             const weight = this.weights[crit.id];
-            return !weight || weight < 1 || weight > 10;
+            return weight === undefined || weight === null || weight < 1 || weight > 10;
         });
         if (invalidWeights.length > 0) {
             this.showToast('Please set valid weights (1-10) for all criteria');

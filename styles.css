@@ -19,6 +19,7 @@ html {
     --text-secondary: #64748b;
     --border: #e2e8f0;
     --success: #10b981;
+    --warning: #f59e0b;
     --danger: #ef4444;
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -36,6 +37,7 @@ html {
     --text-secondary: #94a3b8;
     --border: #334155;
     --success: #34d399;
+    --warning: #fbbf24;
     --danger: #f87171;
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
@@ -361,12 +363,12 @@ input.input-valid:focus {
 }
 
 input.input-incomplete {
-    border-color: #f59e0b;
+    border-color: var(--warning);
     background: rgba(245, 158, 11, 0.05);
 }
 
 input.input-incomplete:focus {
-    border-color: #f59e0b;
+    border-color: var(--warning);
     box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
 }
 
