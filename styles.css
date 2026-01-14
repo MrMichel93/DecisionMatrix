@@ -736,6 +736,12 @@ button:active::before {
     margin-bottom: 1rem;
 }
 
+.about-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
 .about-section p {
     margin-bottom: 1rem;
     line-height: 1.8;
@@ -744,6 +750,17 @@ button:active::before {
 
 .about-section p:last-child {
     margin-bottom: 0;
+}
+
+kbd {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    font-family: monospace;
+    font-size: 0.875em;
+    color: var(--text-primary);
+    box-shadow: 0 2px 0 var(--border);
 }
 
 /* Toast notification */
