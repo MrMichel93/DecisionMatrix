@@ -52,7 +52,7 @@
             <section class="setup-section" id="setup" aria-labelledby="setup-heading">
                 <h2 id="setup-heading" class="visually-hidden">Setup Your Decision Matrix</h2>
                 <div class="input-group">
-                    <h3>Options</h3>
+                    <h2>Options</h2>
                     <p class="help-text">What choices are you comparing? Add at least 2 options with descriptive names.</p>
                     <div id="options-container" role="list" aria-label="List of options">
                         <!-- Options will be added here dynamically -->
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="input-group">
-                    <h3>Criteria</h3>
+                    <h2>Criteria</h2>
                     <p class="help-text">What factors are important for your decision? Set weights (1-10) where higher = more important.</p>
                     <div id="criteria-container" role="list" aria-label="List of criteria">
                         <!-- Criteria will be added here dynamically -->
@@ -72,9 +72,9 @@
 
             <section class="matrix-section" id="matrix-section" aria-labelledby="matrix-heading">
                 <h2 id="matrix-heading">Rate Your Options</h2>
-                <p class="help-text">Rate each option (1-10) for each criterion. All fields are required before calculating results.</p>
+                <p class="help-text" id="matrix-help-text">Rate each option (1-10) for each criterion. All fields are required before calculating results.</p>
                 <div class="matrix-scroll" role="region" aria-label="Decision matrix table" tabindex="0">
-                    <table id="decision-matrix" role="table" aria-describedby="matrix-heading">
+                    <table id="decision-matrix" role="table" aria-describedby="matrix-help-text">
                         <!-- Matrix will be generated here -->
                     </table>
                 </div>

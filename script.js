@@ -405,11 +405,8 @@ class DecisionMatrix {
                        class="${weightValidationClass}"
                        data-weight-id="${criterion.id}"
                        aria-label="Criterion ${index + 1} weight (1-10)"
-                       aria-labelledby="weight-label-${criterion.id}"
                        aria-required="true"
-                       aria-describedby="weight-description-${criterion.id}"
                        title="Enter a weight between 1 and 10">
-                <span id="weight-description-${criterion.id}" class="visually-hidden">Weight must be between 1 and 10, where 10 is most important</span>
                 <button class="btn-remove" data-remove-criterion="${criterion.id}" aria-label="Remove criterion ${index + 1}">×</button>
             `;
             container.appendChild(div);
@@ -499,7 +496,6 @@ class DecisionMatrix {
                            data-criterion-id="${criterion.id}"
                            aria-label="Rating for ${option.name || 'Unnamed'} on ${criterion.name || 'Unnamed'}"
                            aria-required="true"
-                           aria-describedby="matrix-help-text"
                            title="Rate ${option.name || 'Unnamed'} for ${criterion.name || 'Unnamed'} (1-10)">
                 </td>`;
             });
