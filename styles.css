@@ -790,6 +790,19 @@ button:active::before {
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--text-primary);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-section .keyboard-shortcuts-list {
+    list-style: none;
+    padding-left: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.about-section .keyboard-shortcuts-list li {
+    padding: 0.25rem 0;
 }
 
 .about-section p {

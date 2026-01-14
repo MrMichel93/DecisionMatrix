@@ -37,6 +37,10 @@ Visit the live website: [https://mrmichel93.github.io/DecisionMatrix/](https://m
 
 ## 🛠️ Deployment to GitHub Pages
 
+For detailed deployment instructions including security header configuration for different hosting platforms, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Quick Start - GitHub Pages
+
 ### Method 1: Using GitHub Web Interface
 
 1. Go to your repository settings on GitHub
@@ -82,11 +86,16 @@ Then visit `http://localhost:8000` in your browser.
 - **URL Encoding**: Uses Base64 encoding to store state in URL hash
 - **Responsive CSS**: Mobile-first design with CSS Grid and Flexbox
 - **Modern Browser Support**: Works on all modern browsers (Chrome, Firefox, Safari, Edge)
+- **Security Hardened**: 
+  - No inline scripts or styles (all code in external files)
+  - Content-Security-Policy headers to prevent XSS attacks
+  - X-Content-Type-Options to prevent MIME-sniffing
+  - Additional security headers (X-Frame-Options, Referrer-Policy, etc.)
+  - See [SECURITY.md](SECURITY.md) for complete security documentation
 - **SEO Optimized**: Comprehensive meta tags, Open Graph, Twitter Cards, and Schema.org structured data
 - **Performance Optimizations**: 
   - Minified HTML, CSS, and JavaScript files for reduced load times
-  - Critical CSS inlined for above-the-fold content to speed up initial rendering
-  - Asynchronous CSS loading for non-critical styles
+  - Critical CSS in separate file for above-the-fold content
   - Lazy-loading support for images and iframes (ready for future use)
   - No external dependencies for maximum performance
 
@@ -129,16 +138,20 @@ All optimizations maintain the privacy-first approach - no external scripts, no 
 
 ```
 DecisionMatrix/
-├── index.html          # Main HTML structure (optimized with critical CSS and SEO)
+├── index.html          # Main HTML structure (optimized with security headers and SEO)
 ├── index.min.html      # Fully minified HTML
 ├── styles.css          # All styling and responsive design
 ├── styles.min.css      # Minified CSS
-├── critical.css        # Critical above-the-fold CSS
+├── critical.css        # Critical above-the-fold CSS (external file)
 ├── script.js           # Application logic with lazy-loading support
 ├── script.min.js       # Minified JavaScript
+├── structured-data.js  # Schema.org structured data (external file for security)
+├── .htaccess           # Apache server security headers configuration
+├── _headers            # Netlify/GitHub Pages security headers configuration
 ├── minify.sh           # Script to regenerate minified files
 ├── PERFORMANCE.md      # Detailed performance optimization guide
 ├── SEO.md              # SEO optimization guide and best practices
+├── SECURITY.md         # Security enhancements and best practices documentation
 └── README.md           # This file
 ```
 
@@ -159,6 +172,16 @@ For SEO best practices and optimization details, see [SEO.md](SEO.md).
 ## 🔒 Privacy
 
 All data remains in your browser and URL. Nothing is sent to any server. Your decision-making process is completely private.
+
+## 🔐 Security
+
+This application implements multiple security measures to protect users:
+- Content-Security-Policy headers to prevent XSS attacks
+- No inline scripts or styles
+- X-Content-Type-Options to prevent MIME-sniffing
+- Additional security headers for enhanced protection
+
+For complete security documentation, see [SECURITY.md](SECURITY.md).
 
 ## 📄 License
 
