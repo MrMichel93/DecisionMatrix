@@ -40,17 +40,13 @@ html {
     border: 0;
 }
 
-/* Accessibility: Focus indicators for all interactive elements */
-*:focus {
-    outline: 3px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* Use focus-visible for keyboard-only focus */
+/* Accessibility: Focus indicators for keyboard-only navigation */
+/* Remove default focus for mouse users, show only for keyboard */
 *:focus:not(:focus-visible) {
     outline: none;
 }
 
+/* Keyboard focus indicator - shown only when navigating with keyboard */
 *:focus-visible {
     outline: 3px solid var(--primary-color);
     outline-offset: 2px;
@@ -193,7 +189,7 @@ body {
 
 .nav-link:focus {
     outline: 3px solid var(--primary-color);
-    outline-offset: 4px;
+    outline-offset: 2px;
     color: var(--primary-color);
 }
 
