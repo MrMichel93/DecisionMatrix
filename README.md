@@ -20,6 +20,7 @@ Decision Matrix helps you make informed decisions for:
 - **Automatic Calculation**: Instantly calculate and rank options based on weighted scores
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **No Dependencies**: Built with vanilla HTML, CSS, and JavaScript - fast and lightweight
+- **SEO Optimized**: Comprehensive meta tags, structured data, and social media integration for better discoverability
 
 ## 🚀 Live Demo
 
@@ -81,6 +82,7 @@ Then visit `http://localhost:8000` in your browser.
 - **URL Encoding**: Uses Base64 encoding to store state in URL hash
 - **Responsive CSS**: Mobile-first design with CSS Grid and Flexbox
 - **Modern Browser Support**: Works on all modern browsers (Chrome, Firefox, Safari, Edge)
+- **SEO Optimized**: Comprehensive meta tags, Open Graph, Twitter Cards, and Schema.org structured data
 - **Performance Optimizations**: 
   - Minified HTML, CSS, and JavaScript files for reduced load times
   - Critical CSS inlined for above-the-fold content to speed up initial rendering
@@ -127,7 +129,7 @@ All optimizations maintain the privacy-first approach - no external scripts, no 
 
 ```
 DecisionMatrix/
-├── index.html          # Main HTML structure (optimized with critical CSS)
+├── index.html          # Main HTML structure (optimized with critical CSS and SEO)
 ├── index.min.html      # Fully minified HTML
 ├── styles.css          # All styling and responsive design
 ├── styles.min.css      # Minified CSS
@@ -136,6 +138,7 @@ DecisionMatrix/
 ├── script.min.js       # Minified JavaScript
 ├── minify.sh           # Script to regenerate minified files
 ├── PERFORMANCE.md      # Detailed performance optimization guide
+├── SEO.md              # SEO optimization guide and best practices
 └── README.md           # This file
 ```
 
@@ -150,6 +153,8 @@ When you make changes to the source files, regenerate the minified versions:
 This script will automatically update all minified files and show you the file size comparisons.
 
 For detailed information about the performance optimizations, see [PERFORMANCE.md](PERFORMANCE.md).
+
+For SEO best practices and optimization details, see [SEO.md](SEO.md).
 
 ## 🔒 Privacy
 
