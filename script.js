@@ -1,11 +1,35 @@
 // Decision Matrix Application
+// 
+// PRIVACY IMPLEMENTATION:
+// This application is designed with privacy as the top priority.
+// All data storage is 100% local to the user's browser - no external servers or tracking.
+//
+// Data Storage Methods:
+// 1. URL Hash Storage (Primary): Data is encoded in the URL fragment using Base64
+//    - Enables easy sharing without server involvement
+//    - Data never sent to server (fragments are not transmitted in HTTP requests)
+//    - Completely transparent - users can see their data in the URL
+//
+// 2. Browser localStorage (Optional): User-initiated browser storage
+//    - Only used when user clicks "Save to Browser" button
+//    - Data stays on the user's device only
+//    - Can be cleared anytime through browser settings
+//    - Limited to 5-10MB per domain (browser-dependent)
+//
+// NO external data transmission:
+// - No analytics or tracking scripts
+// - No third-party API calls
+// - No cookies
+// - No server-side storage
+// - Content Security Policy enforces these restrictions
+//
 class DecisionMatrix {
     constructor() {
         this.options = [];
         this.criteria = [];
         this.ratings = {}; // { optionId: { criterionId: rating } }
         this.weights = {}; // { criterionId: weight }
-        this.storageKey = 'decisionMatrix_data';
+        this.storageKey = 'decisionMatrix_data'; // localStorage key (only used when user chooses to save)
         this.progressState = {
             optionsComplete: false,
             criteriaComplete: false,
@@ -653,6 +677,13 @@ class DecisionMatrix {
         container.innerHTML = html;
     }
 
+    // PRIVACY-FRIENDLY URL STORAGE
+    // Encodes the decision matrix data into the URL hash (fragment)
+    // Benefits:
+    // - URL fragments are NOT sent to the server in HTTP requests
+    // - Enables easy sharing without server involvement
+    // - Works completely offline
+    // - No external dependencies
     saveToURL() {
         const data = {
             options: this.options,
@@ -661,12 +692,18 @@ class DecisionMatrix {
             weights: this.weights
         };
 
+        // Encode data using Base64 for URL-safe storage
+        // Process: Object → JSON → URI encode → Base64
         const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
         const url = new URL(window.location.href);
         url.hash = encoded;
+        
+        // Update URL without reloading the page
         window.history.replaceState(null, '', url.toString());
     }
 
+    // Load decision matrix data from URL hash
+    // Automatically runs on page load if URL contains encoded data
     loadFromURL() {
         const hash = window.location.hash.slice(1);
         
@@ -698,6 +735,17 @@ class DecisionMatrix {
         }
     }
 
+    // PRIVACY-FRIENDLY BROWSER STORAGE
+    // Saves decision matrix to browser's localStorage (OPTIONAL - user-initiated only)
+    // 
+    // localStorage Properties:
+    // - Stays on user's device only
+    // - Not accessible to other websites (same-origin policy)
+    // - Persists across browser sessions
+    // - Can be cleared anytime in browser settings
+    // - Typically 5-10MB limit per domain
+    //
+    // Privacy Note: This is ONLY called when user clicks "Save to Browser" button
     saveToLocalStorage() {
         try {
             const data = {
@@ -706,6 +754,9 @@ class DecisionMatrix {
                 ratings: this.ratings,
                 weights: this.weights
             };
+            
+            // Store data as JSON string in localStorage
+            // Key: 'decisionMatrix_data'
             localStorage.setItem(this.storageKey, JSON.stringify(data));
             this.showToast('Matrix saved to browser storage!');
         } catch (error) {
@@ -714,14 +765,18 @@ class DecisionMatrix {
         }
     }
 
+    // Load decision matrix from browser's localStorage (OPTIONAL - user-initiated only)
+    // This is ONLY called when user clicks "Load from Browser" button
     loadFromLocalStorage() {
         try {
+            // Retrieve data from localStorage
             const stored = localStorage.getItem(this.storageKey);
             if (!stored) {
                 this.showToast('No saved matrix found in browser storage');
                 return;
             }
 
+            // Parse JSON data and validate
             const data = JSON.parse(stored);
             
             if (data.options && Array.isArray(data.options)) {
@@ -1094,6 +1149,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Theme management
+// 
+// PRIVACY NOTE: Theme preference storage
+// This function uses localStorage to remember the user's theme preference (light/dark mode).
+// This is the ONLY other item we store in localStorage besides the optional matrix data.
+// Storage key: 'theme' with value 'light' or 'dark'
+// This stays on the user's device and is never transmitted anywhere.
 function initTheme() {
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -1104,6 +1165,7 @@ function initTheme() {
     }
     
     // Check for saved theme preference or default to 'light'
+    // This is stored locally in the browser only
     const savedTheme = localStorage.getItem('theme') || 'light';
     htmlElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme, themeIcon);
@@ -1116,6 +1178,7 @@ function initTheme() {
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         
         htmlElement.setAttribute('data-theme', newTheme);
+        // Save theme preference to localStorage (stays on device only)
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme, themeIcon);
         // Update aria-pressed

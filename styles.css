@@ -1147,3 +1147,226 @@ iframe[data-src] {
         animation: none;
     }
 }
+
+/* Privacy Badge and Privacy Page Styles */
+.privacy-badge {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.privacy-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.privacy-badge .badge-icon {
+    font-size: 1.5rem;
+}
+
+.privacy-badge .badge-link {
+    color: white;
+    text-decoration: underline;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.privacy-badge .badge-link:hover {
+    text-decoration: none;
+}
+
+/* Privacy features list styling */
+.privacy-features {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--primary-color);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.privacy-features h4 {
+    color: var(--text-primary);
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.privacy-features h4:first-child {
+    margin-top: 0;
+}
+
+.privacy-features ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 8px 0;
+}
+
+.privacy-features ul li {
+    padding: 6px 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Privacy page specific styles */
+.privacy-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.privacy-section h2 {
+    color: var(--text-primary);
+    margin-top: 40px;
+    margin-bottom: 16px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.privacy-section h3 {
+    color: var(--text-primary);
+    margin-top: 28px;
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+}
+
+.privacy-section h4 {
+    color: var(--text-primary);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.privacy-section p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.privacy-section ul,
+.privacy-section ol {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    padding-left: 28px;
+}
+
+.privacy-section li {
+    margin-bottom: 8px;
+}
+
+.privacy-highlight {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.privacy-highlight h3 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.privacy-highlight p {
+    color: white;
+    margin-bottom: 12px;
+}
+
+.privacy-highlight p:last-child {
+    margin-bottom: 0;
+}
+
+.code-example {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+    margin: 16px 0;
+    overflow-x: auto;
+}
+
+.code-example h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.code-example pre {
+    margin: 0;
+    background: var(--bg-primary);
+    padding: 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.code-example code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.privacy-footer {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 32px 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.privacy-footer p {
+    margin: 8px 0;
+}
+
+.privacy-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.cta-section {
+    text-align: center;
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.cta-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+/* Dark mode adjustments for privacy elements */
+[data-theme="dark"] .privacy-badge {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+[data-theme="dark"] .privacy-highlight {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+[data-theme="dark"] .code-example {
+    background: #1a1a1a;
+    border-color: #333;
+}
+
+[data-theme="dark"] .code-example pre {
+    background: #0d0d0d;
+}
+
+/* Active nav link styling */
+.nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}

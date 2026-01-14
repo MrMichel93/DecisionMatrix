@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Decision Matrix</title>
+    <meta name="description" content="Privacy policy for Decision Matrix - Learn how we protect your privacy with 100% local data storage and no tracking.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
+    
+    <!-- Load CSS -->
+    <link rel="stylesheet" href="critical.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo" role="img" aria-label="Chart icon">📊</span>
+                <span class="nav-title">Decision Matrix</span>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="hamburger" aria-hidden="true"></span>
+                <span class="hamburger" aria-hidden="true"></span>
+                <span class="hamburger" aria-hidden="true"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li class="nav-item" role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li class="nav-item" role="none"><a href="index.html#about" class="nav-link" role="menuitem">About</a></li>
+                <li class="nav-item" role="none"><a href="privacy.html" class="nav-link active" role="menuitem">Privacy</a></li>
+                <li class="nav-item" role="none">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+                        <span id="theme-icon" aria-hidden="true">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header role="banner">
+            <h1>Privacy Policy</h1>
+            <p class="subtitle">Your privacy is our priority - 100% local, 0% tracking</p>
+        </header>
+
+        <main id="main-content" role="main">
+            <section class="privacy-section" aria-labelledby="privacy-heading">
+                <div class="privacy-badge">
+                    <span class="badge-icon" aria-hidden="true">🔒</span>
+                    <strong>Privacy-First Design:</strong> No servers, no tracking, no data collection
+                </div>
+
+                <h2 id="overview-heading">Overview</h2>
+                <p>Decision Matrix is designed with your privacy as the top priority. This privacy policy explains how we handle (or rather, don't handle) your data.</p>
+
+                <div class="privacy-highlight">
+                    <h3>🎯 The Short Version</h3>
+                    <p><strong>We don't collect, store, or transmit any of your personal data. Period.</strong></p>
+                    <p>Everything happens in your browser. Your decisions, your criteria, and your ratings never leave your device unless you explicitly choose to share them.</p>
+                </div>
+
+                <h2 id="no-data-collection-heading">No Data Collection</h2>
+                <p>Unlike most web applications, Decision Matrix operates entirely in your web browser with zero data collection:</p>
+                <ul>
+                    <li><strong>No server-side storage:</strong> We don't have a backend database or servers collecting your data</li>
+                    <li><strong>No analytics or tracking:</strong> We don't use Google Analytics, Facebook Pixel, or any other tracking services</li>
+                    <li><strong>No cookies:</strong> We don't set any cookies to track your browsing behavior</li>
+                    <li><strong>No third-party services:</strong> We don't integrate with any external APIs or services</li>
+                    <li><strong>No user accounts:</strong> We don't require sign-ups or collect email addresses</li>
+                    <li><strong>No IP logging:</strong> We don't log your IP address or any identifying information</li>
+                </ul>
+
+                <h2 id="how-data-stored-heading">How Your Data is Stored</h2>
+                <p>Decision Matrix uses two privacy-friendly methods to store your data, both completely local to your device:</p>
+
+                <h3>1. URL-Based Storage (Primary Method)</h3>
+                <p>Your decision matrix data is encoded directly into the page URL using Base64 encoding:</p>
+                <div class="code-example">
+                    <h4>How it works:</h4>
+                    <pre><code>// Your data structure
+const data = {
+    options: [...],
+    criteria: [...],
+    ratings: {...},
+    weights: {...}
+};
+
+// Encoded in the URL hash
+const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+window.location.hash = encoded;</code></pre>
+                </div>
+                
+                <p><strong>Benefits:</strong></p>
+                <ul>
+                    <li>Easy sharing - just copy and paste the URL</li>
+                    <li>No server required - works completely offline</li>
+                    <li>Transparent - you can see your data in the URL</li>
+                    <li>Bookmarkable - save your decisions in browser bookmarks</li>
+                </ul>
+
+                <h3>2. Browser Local Storage (Optional)</h3>
+                <p>When you click "Save to Browser", your matrix is stored in your browser's localStorage:</p>
+                <div class="code-example">
+                    <h4>Implementation:</h4>
+                    <pre><code>// Save to localStorage
+const storageKey = 'decisionMatrix_data';
+const data = { options, criteria, ratings, weights };
+localStorage.setItem(storageKey, JSON.stringify(data));
+
+// Load from localStorage
+const stored = localStorage.getItem(storageKey);
+const data = JSON.parse(stored);</code></pre>
+                </div>
+
+                <p><strong>Important notes about localStorage:</strong></p>
+                <ul>
+                    <li>Data stays on your device only</li>
+                    <li>Not accessible to other websites</li>
+                    <li>Persists across browser sessions</li>
+                    <li>You can clear it anytime in browser settings</li>
+                    <li>Typically 5-10 MB storage limit per domain</li>
+                </ul>
+
+                <h2 id="theme-preference-heading">Theme Preference Storage</h2>
+                <p>The only other piece of data we store locally is your theme preference (light/dark mode):</p>
+                <div class="code-example">
+                    <pre><code>// Storing theme preference
+localStorage.setItem('theme', 'dark'); // or 'light'
+
+// This is the ONLY other localStorage item we use</code></pre>
+                </div>
+
+                <h2 id="no-external-connections-heading">No External Connections</h2>
+                <p>Our Content Security Policy (CSP) ensures that the application cannot make any external network requests:</p>
+                <div class="code-example">
+                    <pre><code>Content-Security-Policy:
+    default-src 'self';
+    script-src 'self';
+    style-src 'self';
+    img-src 'self' data:;
+    connect-src 'self';</code></pre>
+                </div>
+
+                <p>This means:</p>
+                <ul>
+                    <li>All JavaScript files are loaded from our domain only</li>
+                    <li>All CSS files are loaded from our domain only</li>
+                    <li>No external fonts, images, or resources</li>
+                    <li>No AJAX requests to third-party APIs</li>
+                    <li>Your browser actively blocks any unauthorized connections</li>
+                </ul>
+
+                <h2 id="data-sharing-heading">Data Sharing</h2>
+                <p>You control all data sharing:</p>
+
+                <h3>Share Link Feature</h3>
+                <p>When you click "Copy Share Link", the application copies the current page URL (with your data encoded in it) to your clipboard. This is the <strong>only way</strong> your data can be shared:</p>
+                <ul>
+                    <li>Voluntary action by you</li>
+                    <li>You choose who to share the link with</li>
+                    <li>Anyone with the link can view your matrix</li>
+                    <li>No server involved in the sharing process</li>
+                </ul>
+
+                <h3>Export Features</h3>
+                <p>You can export your matrix as JSON, CSV, or text files:</p>
+                <div class="code-example">
+                    <pre><code>// Export creates a download - no upload anywhere
+const blob = new Blob([content], { type: mimeType });
+const url = URL.createObjectURL(blob);
+// File downloads to your device only</code></pre>
+                </div>
+
+                <h2 id="browser-controls-heading">Your Browser Controls</h2>
+                <p>You have complete control over the data stored by this application:</p>
+
+                <h3>Clear localStorage Data</h3>
+                <p><strong>Chrome/Edge:</strong></p>
+                <ol>
+                    <li>Open DevTools (F12)</li>
+                    <li>Go to Application tab</li>
+                    <li>Click "Local Storage" → select the domain</li>
+                    <li>Right-click and select "Clear"</li>
+                </ol>
+
+                <p><strong>Firefox:</strong></p>
+                <ol>
+                    <li>Open DevTools (F12)</li>
+                    <li>Go to Storage tab</li>
+                    <li>Click "Local Storage" → select the domain</li>
+                    <li>Right-click and select "Delete All"</li>
+                </ol>
+
+                <p><strong>Safari:</strong></p>
+                <ol>
+                    <li>Preferences → Privacy → Manage Website Data</li>
+                    <li>Find the domain and click "Remove"</li>
+                </ol>
+
+                <h2 id="open-source-heading">Open Source & Transparency</h2>
+                <p>Decision Matrix is open source, which means:</p>
+                <ul>
+                    <li>Anyone can review our code on GitHub</li>
+                    <li>You can verify we're not collecting data</li>
+                    <li>The community can audit our privacy claims</li>
+                    <li>You can host your own instance if desired</li>
+                </ul>
+
+                <p><strong>GitHub Repository:</strong> <a href="https://github.com/MrMichel93/DecisionMatrix" target="_blank" rel="noopener noreferrer">MrMichel93/DecisionMatrix</a></p>
+
+                <h2 id="hosting-heading">Hosting & Infrastructure</h2>
+                <p>This application is hosted on GitHub Pages:</p>
+                <ul>
+                    <li>GitHub may log standard web server information (IP addresses, access times) for infrastructure purposes</li>
+                    <li>We do not have access to these logs</li>
+                    <li>GitHub's privacy policy applies to their infrastructure: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a></li>
+                </ul>
+
+                <h2 id="security-heading">Security Measures</h2>
+                <p>We implement multiple security measures to protect your privacy:</p>
+                <ul>
+                    <li><strong>Content Security Policy:</strong> Prevents unauthorized script execution and data exfiltration</li>
+                    <li><strong>No inline scripts:</strong> All code is in external, auditable files</li>
+                    <li><strong>HTTPS only:</strong> All connections are encrypted</li>
+                    <li><strong>No external dependencies:</strong> No third-party JavaScript libraries that could track you</li>
+                    <li><strong>Input validation:</strong> All user inputs are validated to prevent injection attacks</li>
+                </ul>
+
+                <h2 id="gdpr-compliance-heading">GDPR & Privacy Regulations</h2>
+                <p>Because we don't collect any personal data, most privacy regulations don't apply to this application:</p>
+                <ul>
+                    <li><strong>GDPR (EU):</strong> No personal data collected = no GDPR obligations</li>
+                    <li><strong>CCPA (California):</strong> No personal information sold or shared</li>
+                    <li><strong>Right to be forgotten:</strong> Just clear your browser's localStorage</li>
+                    <li><strong>Data portability:</strong> Export your data anytime with our export features</li>
+                </ul>
+
+                <h2 id="children-privacy-heading">Children's Privacy</h2>
+                <p>Decision Matrix does not knowingly collect any information from anyone, including children under 13. The application is safe for all ages to use.</p>
+
+                <h2 id="changes-heading">Changes to Privacy Policy</h2>
+                <p>If we ever change how we handle privacy (we won't), we will:</p>
+                <ul>
+                    <li>Update this page with the new policy</li>
+                    <li>Include a "Last Updated" date</li>
+                    <li>Notify users through a prominent notice on the main page</li>
+                </ul>
+
+                <h2 id="questions-heading">Questions or Concerns?</h2>
+                <p>If you have questions about this privacy policy or want to verify our privacy claims:</p>
+                <ul>
+                    <li>Review our <a href="https://github.com/MrMichel93/DecisionMatrix" target="_blank" rel="noopener noreferrer">open source code</a></li>
+                    <li>Check your browser's DevTools Network tab (you'll see no external requests)</li>
+                    <li>Open an issue on our GitHub repository</li>
+                </ul>
+
+                <div class="privacy-footer">
+                    <p><strong>Last Updated:</strong> January 2026</p>
+                    <p><strong>Summary:</strong> We built Decision Matrix to be completely private by design. Your data stays on your device, always.</p>
+                </div>
+
+                <div class="cta-section">
+                    <h3>Ready to make better decisions with complete privacy?</h3>
+                    <a href="index.html" class="btn-primary">Start Using Decision Matrix</a>
+                </div>
+            </section>
+        </main>
+
+        <footer role="contentinfo">
+            <p>All data is stored in the URL - no backend, no tracking, complete privacy.</p>
+            <p><a href="privacy.html">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
